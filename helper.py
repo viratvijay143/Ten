@@ -52,7 +52,7 @@ def exec(cmd):
         #err = process.stdout.decode()
 def pull_run(work, cmds):
     with concurrent.futures.ThreadPoolExecutor(max_workers=work) as executor:
-        print("Waiting for tasks to complete")
+        print("**__Waiting for tasks to complete__**")
         fut = executor.map(exec,cmds)
 async def aio(url,name):
     k = f'{name}.pdf'
@@ -143,8 +143,7 @@ async def run(cmd):
         return f'[stderr]\n{stderr.decode()}'
 
     
-    
-    
+
 def old_download(url, file_name, chunk_size = 1024 * 10):
     if os.path.exists(file_name):
         os.remove(file_name)
@@ -169,6 +168,7 @@ def time_name():
     now = datetime.datetime.now()
     current_time = now.strftime("%H%M%S")
     return f"{date} {current_time}.mp4"
+
 
 async def download_video(url,cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
@@ -198,8 +198,9 @@ async def download_video(url,cmd, name):
     except FileNotFoundError as exc:
         return os.path.isfile.splitext[0] + "." + "mp4"
 
+
 async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
-    reply = await m.reply_text(f"Uploading - `{name}`")
+    reply = await m.reply_text(f"**Uᴘʟᴏᴀᴅɪɴɢ** » `{name}`\n\n **__🤖𝔹ᴏᴛ 𝕄ᴀᴅᴇ 𝔹ʏ ┈━═.•°℞𝑜多їη 𝙷𝑜๏𝒹°•.═━┈__\n**")
     time.sleep(1)
     start_time = time.time()
     await m.reply_document(ka,caption=cc1)
@@ -209,11 +210,14 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
     os.remove(ka)
     time.sleep(3) 
 
-async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
-    
-    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
-    await prog.delete (True)
-    reply = await m.reply_text(f"**Uploading ...** - `{name}`")
+async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog):
+    # Add PNG overlay to the video
+    overlay_path = "watermark.png"
+    cmd = f'ffmpeg -i "{filename}" -i "{overlay_path}" -filter_complex "overlay=(main_w-overlay_w-10):(main_h-overlay_h-10)" -c:a copy -preset ultrafast "{filename}_temp.mp4"'
+    subprocess.run(cmd, shell=True)
+
+    # Send the modified video
+    reply = await m.reply_text(f"⬆️**Uᴘʟᴏᴀᴅɪɴɢ** » `{name}`\n **🤖𝔹ᴏᴛ 𝕄ᴀᴅᴇ 𝔹ʏ ┈━═.•°℞𝑜多їη 𝙷𝑜๏𝒹°•.═━┈\n**")
     try:
         if thumb == "no":
             thumbnail = f"{filename}.jpg"
@@ -222,16 +226,22 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
     except Exception as e:
         await m.reply_text(str(e))
 
-    dur = int(duration(filename))
+    # Extract duration of the video
+    video_duration = duration(filename)
+    dur = int(video_duration)
 
     start_time = time.time()
 
     try:
-        await m.reply_video(filename,caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur, progress=progress_bar,progress_args=(reply,start_time))
+        await m.reply_video(f"{filename}_temp.mp4", caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumbnail, duration=dur, progress=progress_bar, progress_args=(reply, start_time))
     except Exception:
-        await m.reply_document(filename,caption=cc, progress=progress_bar,progress_args=(reply,start_time))
-    os.remove(filename)
+        await m.reply_document({filename}, caption=cc, progress=progress_bar, progress_args=(reply, start_time))
 
-    os.remove(f"{filename}.jpg")
-    await reply.delete (True)
+    # Clean up temporary files
+    os.remove(filename)
+    os.remove(f"{filename}_temp.mp4")
+    await reply.delete(True)
+
+
+    
     
