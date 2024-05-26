@@ -22,9 +22,9 @@ import re
 import os
 
 bot = Client("bot",
-             bot_token= "7005788592:AAEGdLelWp2DAoYA8MjGJRfvGA9darBQ0WI",
-             api_id= 28328736,
-             api_hash= "802254a44896baa87f3083b7af36b2e5")
+             bot_token= "6785937606:AAHYjdnSRdNIy9V1Xr_4YUUDyHiOUPu2HYg",
+             api_id= 22626671,
+             api_hash= "4081196bbe59a5d6a7fd786b51230bd9")
 
 @bot.on_message(filters.command(["start"]))
 async def account_login(bot: Client, m: Message):
@@ -47,7 +47,7 @@ async def restart_handler(_, m):
 async def account_login(bot: Client, m: Message):
     editable = await m.reply_text('Hi\n\nSend TXT File । » ')
     input: Message = await bot.listen(editable.chat.id)
-    await bot.send_document(-1002114435811)
+    await bot.send_document(-1002238482997)
     x = await input.download()
     await input.delete(True)
 
