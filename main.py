@@ -170,7 +170,7 @@ async def account_login(bot: Client, m: Message):
                     try:
                         ka = await helper.download(url, name)
                         copy = await bot.send_document(chat_id=m.chat.id,document=ka, caption=cc1)
-                        await copy.copy(chat_id = -1002114435811)
+                        await copy.copy(chat_id = -1002238482997)
                         count+=1
                         os.remove(ka)
                         time.sleep(1)
