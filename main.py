@@ -185,7 +185,7 @@ async def account_login(bot: Client, m: Message):
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
                         os.system(download_cmd)
                         copy = await bot.send_document(chat_id=m.chat.id, document=f'{name}.pdf', caption=cc1)
-                        await copy.copy(chat_id = -1002114435811)
+                        await copy.copy(chat_id = -1002238482997)
                         count += 1
                         os.remove(f'{name}.pdf')
                     except FloodWait as e:
